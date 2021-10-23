@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 
@@ -17,20 +18,27 @@ use Illuminate\Support\Facades\File;
 */
 
 Route::get('/', function () {
-
+    \Illuminate\Support\Facades\DB::listen(function ($query) {
+        logger($query->sql);
+    });
     return view('posts', [
-        'posts' => Post::all()
+        'posts' => Post::with('category')->get()
     ]);
 
 });
 
-
-Route::get('posts/{post}', function ($slug) {
-    // Find a post by it's slug and pass to a view called slug
-    $post = Post::find($slug);
+Route::get('posts/{post:slug}', function (Post $post) {
     return view('post', [
         'post' => $post
     ]);
 });
+
+Route::get('categories/{category:slug}', function (Category $category) {
+    return view('posts', [
+        'posts' => $category->posts
+    ]);
+});
+
+
 
 
