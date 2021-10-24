@@ -11,6 +11,9 @@ class Post extends Model
 
     protected $gaurded = ['id'];
 
+    // Eager loading 
+    protected $with = ['category', 'author'];
+
     protected $fillable = ['title', 'slug', 'excerpt', 'body', 'category_id'];
 
     public function category()
