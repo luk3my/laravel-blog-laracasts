@@ -15,17 +15,20 @@
                             </button>
                         </x-slot>
 
-                     <a href="/"
-                        class="block text-left px-3 text-sm leading-6 hover:bg-blue-300 focus:bg-blue-300 hover:text-white focus:text-white">
+                     <a href="/?{{ http_build_query(request()->except('category', 'page')) }}"
+                        class="block text-left px-3 text-sm leading-6
+                            hover:bg-blue-300 focus:bg-blue-300 
+                            hover:text-white focus:text-white"
+                            :active="request()->routeIs('home')">
                         All
                     </a>   
                     @foreach ($categories as $category)
-                        <a href="/?category={{ $category->slug }}&{{ http_build_query(request()->except('category')) }}"
+                        <a href="/?category={{ $category->slug }}&{{ http_build_query(request()->except('category', 'page')) }}"
                             class="block text-left px-3 text-sm leading-6 
                                 hover:bg-blue-300 focus:bg-blue-300 
-                                hover:text-white focus:text-white
-                                {{ isset($currentCategory) && $currentCategory->is($category) ? 'bg-blue-500 text-white' : ''}}
-                                ">
+                                hover:text-white focus:text-white 
+                                {{ isset($currentCategory) && $currentCategory->is($category) ? 'bg-blue-500 text-white' : ''}}"
+                                :active='request()->is("categories/{$category->slug}")'>
                         {{ ucwords($category->name) }}
                         </a>   
                     @endforeach  
