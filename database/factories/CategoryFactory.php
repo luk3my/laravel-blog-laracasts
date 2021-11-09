@@ -21,6 +21,7 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
+        
         return [
             'name' => $this->faker->word,
             'slug' => $this->faker->slug
